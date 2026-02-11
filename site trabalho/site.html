@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Dispatch | Notícias Temáticas</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #1a1a2e;
+            --secondary-color: #16213e;
+            --accent-color: #0f4c75;
+            --highlight-color: #00b7c2;
+            --light-color: #f1f1f1;
+            --text-color: #333;
+            --text-light: #777;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--highlight-color);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--highlight-color);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        .btn-primary {
+            background-color: var(--highlight-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #00a0aa;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Main Navigation */
+        .main-nav {
+            background-color: var(--secondary-color);
+            padding: 12px 0;
+        }
+        
+        .main-nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+        }
+        
+        .main-nav ul li {
+            margin: 0 20px;
+        }
+        
+        .main-nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        .main-nav ul li a.active {
+            color: var(--highlight-color);
+        }
+        
+        .main-nav ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--highlight-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1588681664899-f142ff2dc9b1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Sections */
+        .sections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .section-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .section-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .section-content {
+            padding: 25px;
+        }
+        
+        .section-tag {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .section-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        
+        .section-articles {
+            list-style: none;
+            margin-top: 20px;
+        }
+        
+        .section-articles li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .section-articles li:last-child {
+            border-bottom: none;
+        }
+        
+        .section-articles a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .section-articles a:hover {
+            color: var(--highlight-color);
+        }
+        
+        .section-articles .date {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 5px;
+        }
+        
+        /* Podcast Section */
+        .podcast-section {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 50px 0;
+            margin: 40px 0;
+        }
+        
+        .podcast-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .podcast-content {
+            flex: 1;
+            min-width: 300px;
+            margin-right: 30px;
+        }
+        
+        .podcast-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .podcast-content p {
+            margin-bottom: 25px;
+            max-width: 500px;
+        }
+        
+        .podcast-player {
+            flex: 1;
+            min-width: 300px;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            padding: 25px;
+        }
+        
+        .player-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .player-header i {
+            font-size: 2rem;
+            margin-right: 15px;
+            color: var(--highlight-color);
+        }
+        
+        .player-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .player-btn {
+            background-color: var(--highlight-color);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .player-btn:hover {
+            background-color: #00a0aa;
+        }
+        
+        .player-time {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        .player-progress {
+            width: 100%;
+            height: 5px;
+            background-color: #444;
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .player-progress-bar {
+            height: 100%;
+            width: 30%;
+            background-color: var(--highlight-color);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 30px;
+            padding-right: 20px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--highlight-color);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sections-container {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .podcast-container {
+                flex-direction: column;
+            }
+            
+            .podcast-content {
+                margin-right: 0;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                width: 100%;
+                margin-top: 15px;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .auth-buttons {
+                margin-top: 15px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+            
+            .main-nav ul li {
+                margin: 5px 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+                padding: 0 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .sections-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                padding: 50px 0;
+            }
+            
+            .section-card {
+                margin: 0 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">News<span>Dispatch</span></a>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav id="mainNav">
+                <ul>
+                    <li><a href="#" class="active">Home</a></li>
+                    <li><a href="#">LATEST</a></li>
+                    <li><a href="#">WORLD</a></li>
+                    <li><a href="#">SPORTS</a></li>
+                    <li><a href="#">CULTURE</a></li>
+                    <li><a href="#">WELLNESS</a></li>
+                    <li><a href="#">ECONOMY</a></li>
+                </ul>
+                
+                <div class="auth-buttons">
+                    <button class="btn btn-outline">Sign in</button>
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Main Navigation -->
+    <div class="main-nav">
+        <div class="container">
+            <ul>
+                <li><a href="#" class="active">All</a></li>
+                <li><a href="#mental-health">Saúde Mental</a></li>
+                <li><a href="#ai-tech">Tecnologia IA</a></li>
+                <li><a href="#environment">Meio Ambiente</a></li>
+                <li><a href="#">Podcast</a></li>
+                <li><a href="#">Daily Minute</a></li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Notícias que importam</h1>
+            <p>Fique atualizado com as últimas notícias sobre saúde mental, avanços em IA e as questões ambientais mais urgentes do nosso tempo.</p>
+            <button class="btn btn-primary">Explore as Notícias</button>
+        </div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <div class="sections-container">
+            <!-- Saúde Mental Section -->
+            <div class="section-card" id="mental-health">
+                <div class="section-image" style="background-image: url('https://images.unsplash.com/photo-1591228128578-1d2b53d8e71d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                <div class="section-content">
+                    <span class="section-tag">SAÚDE MENTAL</span>
+                    <h2 class="section-title">Cuidando da Mente no Mundo Moderno</h2>
+                    <p class="section-description">As últimas descobertas e estratégias para promover bem-estar psicológico em um mundo cada vez mais acelerado.</p>
+                    
+                    <ul class="section-articles">
+                        <li>
+                            <a href="#">Meditação mindfulness reduz estresse em 40%, revela estudo</a>
+                            <div class="date">15 Junho 2023</div>
+                        </li>
+                        <li>
+                            <a href="#">Empresas adotam políticas de saúde mental no trabalho</a>
+                            <div class="date">12 Junho 2023</div>
+                        </li>
+                        <li>
+                            <a href="#">Tecnologia auxilia no tratamento de ansiedade e depressão</a>
+                            <div class="date">10 Junho 2023</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Tecnologia IA Section -->
+            <div class="section-card" id="ai-tech">
+                <div class="section-image" style="background-image: url('https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                <div class="section-content">
+                    <span class="section-tag">TECNOLOGIA IA</span>
+                    <h2 class="section-title">Revolução da Inteligência Artificial</h2>
+                    <p class="section-description">Como a IA está transformando indústrias, criando oportunidades e levantando questões éticas importantes.</p>
+                    
+                    <ul class="section-articles">
+                        <li>
+                            <a href="#">Novo modelo de linguagem supera expectativas em testes</a>
+                            <div class="date">14 Junho 2023</div>
+                        </li>
+                        <li>
+                            <a href="#">IA na medicina: Diagnósticos mais precisos e rápidos</a>
+                            <div class="date">11 Junho 2023</div>
+                        </li>
+                        <li>
+                            <a href="#">Regulamentação ética da IA: Um debate global</a>
+                            <div class="date">8 Junho 2023</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Meio Ambiente Section -->
+            <div class="section-card" id="environment">
+                <div class="section-image" style="background-image: url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')"></div>
+                <div class="section-content">
+                    <span class="section-tag">MEIO AMBIENTE</span>
+                    <h2 class="section-title">Sustentabilidade e Conservação</h2>
+                    <p class="section-description">Iniciativas globais e locais para proteger nossos ecossistemas e enfrentar as mudanças climáticas.</p>
+                    
+                    <ul class="section-articles">
+                        <li>
+                            <a href="#">Energia renovável atinge recorde de produção mundial</a>
+                            <div class="date">13 Junho 2023</div>
+                        </li>
+                        <li>
+                            <a href="#">Projeto de reflorestamento recupera mil hectares</a>
+                            <div class="date">9 Junho 2023</div>
+                        </li>
+                        <li>
+                            <a href="#">Plásticos biodegradáveis: Solução ou novo problema?</a>
+                            <div class="date">7 Junho 2023</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Podcast Section -->
+    <section class="podcast-section">
+        <div class="container podcast-container">
+            <div class="podcast-content">
+                <h2>Daily Minute: Reports from around the world</h2>
+                <p>Ouça nosso podcast diário com as notícias mais importantes sobre saúde mental, avanços tecnológicos e meio ambiente em apenas 60 segundos.</p>
+                <button class="btn btn-primary">Assine o Podcast</button>
+            </div>
+            
+            <div class="podcast-player">
+                <div class="player-header">
+                    <i class="fas fa-podcast"></i>
+                    <div class="player-title">Daily Minute - Edição 22:18</div>
+                </div>
+                
+                <div class="player-controls">
+                    <button class="player-btn" id="playBtn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    
+                    <div class="player-time">0:00 / 1:00</div>
+                </div>
+                
+                <div class="player-progress">
+                    <div class="player-progress-bar" id="progressBar"></div>
+                </div>
+                
+                <div style="margin-top: 20px; font-size: 0.9rem;">
+                    <p>Nesta edição: Impacto das redes sociais na saúde mental, avanços da IA no combate às mudanças climáticas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>News Dispatch</h3>
+                    <p style="color: #ccc; max-width: 250px;">Notícias confiáveis sobre os temas mais importantes do nosso tempo.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Categorias</h3>
+                    <ul>
+                        <li><a href="#mental-health">Saúde Mental</a></li>
+                        <li><a href="#ai-tech">Tecnologia IA</a></li>
+                        <li><a href="#environment">Meio Ambiente</a></li>
+                        <li><a href="#">Economia</a></li>
+                        <li><a href="#">Cultura</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Recursos</h3>
+                    <ul>
+                        <li><a href="#">Sobre Nós</a></li>
+                        <li><a href="#">Contato</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Carreiras</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Inscreva-se</h3>
+                    <p style="color: #ccc; margin-bottom: 15px;">Receba as principais notícias diretamente no seu email.</p>
+                    <div style="display: flex;">
+                        <input type="email" placeholder="Seu email" style="padding: 10px; border: none; border-radius: 4px 0 0 4px; flex: 1;">
+                        <button class="btn btn-primary" style="border-radius: 0 4px 4px 0;">Enviar</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2023 News Dispatch. Todos os direitos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mainNav = document.getElementById('mainNav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+            
+            // Change icon
+            const icon = mobileMenuBtn.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Podcast Player Simulation
+        const playBtn = document.getElementById('playBtn');
+        const progressBar = document.getElementById('progressBar');
+        let isPlaying = false;
+        let progress = 0;
+        
+        playBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            
+            const icon = playBtn.querySelector('i');
+            if (isPlaying) {
+                icon.classList.remove('fa-play');
+                icon.classList.add('fa-pause');
+                
+                // Simulate progress
+                const interval = setInterval(() => {
+                    if (progress < 100 && isPlaying) {
+                        progress += 1.67; // 100% in 60 seconds
+                        progressBar.style.width = `${progress}%`;
+                    } else {
+                        clearInterval(interval);
+                        isPlaying = false;
+                        icon.classList.remove('fa-pause');
+                        icon.classList.add('fa-play');
+                        progress = 0;
+                        progressBar.style.width = '0%';
+                    }
+                }, 1000);
+            } else {
+                icon.classList.remove('fa-pause');
+                icon.classList.add('fa-play');
+            }
+        });
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (window.innerWidth <= 768 && mainNav.classList.contains('active')) {
+                        mainNav.classList.remove('active');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            });
+        });
+        
+        // Highlight active section in main navigation based on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section-card');
+            const navLinks = document.querySelectorAll('.main-nav a');
+            
+            let currentSection = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
